@@ -20,7 +20,9 @@ The dataset we are using contains the information on 1534 power outages cases fr
 |Column                   |Description|
 |---                      |---        |
 |`'YEAR'`               | 	Indicates the year when the outage event occurred|
-|`'YEAR'`               | 	Indicates the year when the outage event occurred|
+|`'MONTH'`               | 	Indicates the month when the outage event occurred|
+|`'CLIMATE.CATEGORY'` | Categories of all the events causing the major power outages|
+
 
 ---
 
