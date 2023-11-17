@@ -30,4 +30,6 @@ The dataset we are using contains the information on 1534 power outages cases fr
 
 ## Cleaning Data
 
-We have a new columns djsdksk
+We have a new columns
+
+<iframe src="assets/fig_duration.html" width=800 height=600 frameBorder=0></iframe>
