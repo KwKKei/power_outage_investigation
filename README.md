@@ -26,4 +26,4 @@ The dataset we are using contains the information on 1534 power outages cases fr
 
 ## Cleaning Data
 
-
+We have a new columns
