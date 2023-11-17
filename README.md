@@ -12,6 +12,6 @@ The content of the dataset is about the major power outages that happened in dif
 --- 
 
 ## Introduction to the Datasets in this Study
-The dataset we are using contains the information on 1534 power outages cases from 2000 to 2016, with 59 columns recording the information. Based on the question we investigate, the columns are useful for us to use with the description as follow:
+The dataset we are using contains the information on 1534 power outages cases from 2000 to 2016, with 59 columns recording the information. Based on the question we investigate, the columns are useful for us to use with the description as follow: eteteg
 
 
