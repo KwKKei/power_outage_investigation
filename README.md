@@ -123,15 +123,35 @@ However, there are some exceptions to the column that if the OUTAGE.START is not
 Since we interested in the relationship between `'CAUSE.CATEGORY'` and other columns, and we believe that their data can be expressed into a more detailed column like `'CAUSE.CATEGORY.DETAIL'`. As such, we would like to find how the missingness in `'CAUSE.CATEGORY.DETAIL'` are
 depended on the other columns.
 
-1. TOTAL.CUSTOMERS and CAUSE.CATEGORY.DETAIL
-Null Hypothesis: The missingness of `'CAUSE.CATEGORY.DETAIL'` does not depend on `'TOTAL.CUSTOMERS'`. 
+## `'TOTAL.CUSTOMERS'` and `'CAUSE.CATEGORY.DETAIL'` (MCAR)
 
-Alternative Hypothesis: The missingness of `'CAUSE.CATEGORY.DETAIL'` depends on `'TOTAL.CUSTOMERS'`
+**Null Hypothesis:** The missingness of `'CAUSE.CATEGORY.DETAIL'` does not depend on `'TOTAL.CUSTOMERS'`. 
 
-We are using the cumulative distribution function (CDFs) to measure the simularity between the two distributions in order to find out the K-S statistic that is roughly defined as the **largest difference between two CDFs**.
+**Alternative Hypothesis:** The missingness of `'CAUSE.CATEGORY.DETAIL'` depends on `'TOTAL.CUSTOMERS'`
 
-Below are the distributions of `'CAUSE.CATEGROY.DETIAL'` and `'TOTAL.CUSTOMERS'` in a form of the plotly plot, we conducted the shape of the two distribution are unsimular and the 
+Below are the distributions of missing values of `'CAUSE.CATEGROY.DETIAL'`, which we call it `'DETAIL.MISSING'`, and `'TOTAL.CUSTOMERS'` in a form of the plotly plot, we conducted the shape of the two distribution are unsimular. As such, running the Kolmogorov-Smirnov to collect the observed statistic is the purpose to run a permutation test to find out the p-value whether it is fall in the distribution. 
 <iframe src="assets/fig_total_cutomer_dist.html" width=800 height=600 frameBorder=0></iframe>
+
+Before that, we are using the cumulative distribution function (CDFs) to see the simularity between the two distributions in order to find out the K-S statistic that is roughly defined as the **largest difference between two CDFs**. Here you can see the difference of mean is quite large. 
+
+<iframe src="assets/fig_total_cutomer_CDF.html" width=800 height=600 frameBorder=0></iframe>
+
+After we run the permutation test, we can see the histogram below is showing the p-value is 1.0 since the obseved statistic is fall beyond the whole distribution. As a result, we can conclude that the missingness of `'CASUE.CATEGORY.DETAIL'` does not depend on the `'TOTAL.CUSTOMERS'` column. We fail to reject the null hypothesis. 
+
+<iframe src="assets/fig_total_cutomer_KS.html" width=800 height=600 frameBorder=0></iframe>
+
+## `'OUTAGE.DURATION'` and `'CAUSE.CATEGORY.DETAIL'` (MAR)
+
+**Null Hypothesis:** The missingness of `'CAUSE.CATEGORY.DETAIL'` does not depend on `'OUTAGE.DURATION'` 
+
+**Alternative hypothesis:** The missingness of `'CAUSE.CATEGORY.DETAIL'` depends on `'OUTAGE.DURATION'` 
+
+Below are the distributions of `'DETAIL.MISSING'` and `'OUTAGE.DURATION'` in a form of the plotly plot, we conducted the shape of the two distribution are , but this time the mean difference is quite small according to the distribution. We can also run the Kolmogorov-Smirnov to collect the observed statistic is the purpose to run a permutation test to find out the p-value whether it is fall in the distribution. 
+<iframe src="assets/fig_total_cutomer_dist.html" width=800 height=600 frameBorder=0></iframe>
+
+After collected the ks-statistic and run the permutation test, we see a p-value of 0.01 which satisfy the signigicance level of 5%, so we can reject the nul hypothesis. The missingness of `'CAUSE.CATEGORY.DETAIL'` is depend on the values of `'OUTAGE.DURATION'` 
+
+<iframe src="assets/fig_outage_duration_KS.html" width=800 height=600 frameBorder=0></iframe>
 
 ---
 
@@ -139,6 +159,57 @@ Below are the distributions of `'CAUSE.CATEGROY.DETIAL'` and `'TOTAL.CUSTOMERS'`
 
 **Whether the high severe outages were distributed at random from the CAUSE.CATEGORY?**
 
+### Null Hypothesis:
+The distribution of high-severity outages across different cause categories is random, and there is no significant association between the cause category and the occurrence of high-severity outages.
+
+### Alternative Hypothesis:
+The distribution of high-severity outages across different cause categories is not random, and there is a significant association between the cause category and the occurrence of high-severity outages.
 
 
+### Significance Level:
+Our significance level is set at 0.05, representing a 5% chance of rejecting the null hypothesis when it is true.
+
+* **Reason:**
+The significance level, often denoted by 
+α, is the threshold for determining statistical significance. A common choice is 0.05. We've set a conventional significance level, and if the p-value is less than 0.05, we would reject the null hypothesis. This decision threshold helps control the risk of Type I errors (incorrectly rejecting a true null hypothesis).
+
+### Test Statistics:
+To test these hypotheses, we employ a statistical method known as Total Variation Distance (TVD). which quantifies the difference between two probability distributions. In this case, it measures how much the distribution of high-severity outages deviates from a random distribution across cause categories.
+
+* **Reason:**
+The TVD is a suitable choice because it measures the discrepancy between two probability distributions. In this context, it assesses how different the distribution of high-severity outages is from a random distribution within the cause category. By calculating the TVD for the observed data and comparing it to an empirical distribution generated under the null hypothesis, we gain insights into the extent of this difference.
+
+
+### Procedure:
+1. Calculated the observed TVD from the actual data.
+2. Conducted a bootstrap simulation to generate multiple samples assuming a random distribution.
+3. Computed TVD for each bootstrap sample to create an empirical distribution.
+4. Compared the observed TVD to the empirical distribution to calculate the p-value.
+
+### Observation:
+| CAUSE.CATEGORY                |   Low Severity |   High Severity |
+|:------------------------------|---------------:|----------------:|
+| equipment failure             |      0.0503145 |      0.00242718 |
+| fuel supply emergency         |      0.0242588 |      0.0558252  |
+| intentional attack            |      0.354897  |      0.0558252  |
+| islanding                     |      0.0413297 |      0          |
+| public appeal                 |      0.0548068 |      0.0194175  |
+| severe weather                |      0.370171  |      0.842233   |
+| system operability disruption |      0.104223  |      0.0242718  |
+
+In our observed dataframe, we aggregate our data to the percentage of low-severity and high-severity outages of the categories within each column separately. With regard to our hypothesis, we are mainly focusing whether the severity of outage is random distributed across the categories of causes. 
+
+<iframe src="assets/fig_hyp_dist.html" width=800 height=600 frameBorder=0></iframe>
+
+By observing the grouped bar chart above, there is a significance on the distribution of High Severity Outage which is mainly occur when there is severe weather as the cause.
+
+### Result:
+
+<iframe src="assets/fig_hyp_tvd.html" width=800 height=600 frameBorder=0></iframe>
+
+A p-value of zero indicates that the observed total variation distance (TVD) is extremely unlikely to occur under the assumption of the null hypothesis. In other words, the observed difference between the distributions is so significant that it falls outside the range of values obtained through random chance alone.
+
+When the p-value is effectively zero and the observed statistic is far from the empirical distribution, it suggests strong evidence against the null hypothesis. In this case, it implies that the distribution of high-severity outages is not random with respect to the cause category; there is a significant association between the cause category and the occurrence of high-severity outages.
+
+**As a result, we rejected the null hypothesis in which the data provides evidence in favor of our alternative hypothesis.**
 ---
