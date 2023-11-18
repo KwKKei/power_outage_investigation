@@ -96,9 +96,3 @@ However, there are some exceptions to the column that if the OUTAGE.START is not
 **Conclusion:** Considering the logical flow of events during power outages and the nature of the data generating process, it is reasonable to believe that the "OUTAGE.RESTORATION.DATE" column is likely NMAR. The missing values in this column are not randomly distributed but are tied to the occurrence (or lack) of power restoration following an outage. Further details on the circumstances of each outage event, especially those without restoration dates, would enhance the understanding of the missingness pattern.
 
 --- 
-
-## Missingness Dependency
-
----
-
-## Hypothesis Testing
