@@ -120,7 +120,7 @@ The pivot table provides a clear overview of the mean `'OUTAGE.DURATION'` for ea
 
 ### Significance:
 **Equipment Failure:**
-- **Normal Climate:** Mean outage duration is 3201.43 minutes, significantly higher than in the cold climate.
+- **Normal Climate:** Mean outage duration is 3201.43 minutes, significantly higher than in the normal climate.
 
 **Fuel Supply Emergency:**
 - **Cold Climate:** Mean outage duration is 17433 minutes, the longest duration among all climate categories.
