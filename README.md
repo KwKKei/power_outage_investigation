@@ -61,7 +61,7 @@ In this section, we explore individual variables to understand their distributio
 
 1. ### `'OUTAGE.DURATION'` Distribution:
 
-The histogram visualizes the distribution of outage durations, showcasing the frequency of outages across different duration ranges. It provides insights into the typical duration of power outages and highlights any notable outliers.
+The histogram visualizes the distribution of outage durations, showcasing the frequency of outages across different duration ranges. It provides insights into the typical duration of power outages and highlights any notable outliers. 
 
 <iframe src="assets/fig_duration.html" width=800 height=600 frameBorder=0></iframe>
 
@@ -81,6 +81,27 @@ The bar chart presents the distribution of major power outages categorized by th
 
 ---
 
+## Bivariate Analysis
+In this section, we explore relationships between pairs of variables, shedding light on potential correlations and patterns within the dataset.
+
+1. ### Outage Duration vs. Cause Category:
+
+<iframe src="assets/fig_OD_vs_CC.html" width=800 height=600 frameBorder=0></iframe>
+
+- **Insight:** The box plot reveals the distribution of outage durations across different cause categories. It assists in identifying variations in outage durations associated with specific causes, aiding in the understanding of the impact of different events on outage durations.
+
+- **Interpretation:** From this box chart, we noticed that fuel supply emergency have a wide range of values which the outliers increment the mean of the outage duration. It seems that there are several high severity cases of the outage. With regard to other cause categories, their outage duration remain steady, and each categories contains a several outiers but not very significant.
+
+2. ### Percentage of Climate Categories for Each Cause Category:
+
+<iframe src="assets/fig_climate_percent.html" width=800 height=600 frameBorder=0></iframe>
+
+- **Insight:** This bar chart displays the percentage distribution of climate categories within each cause category. It offers a nuanced perspective on the proportional contribution of climate conditions to various types of power outages, enhancing our understanding of their interdependencies.
+
+- **Interpretation:** We observed that this grouped barcahrt, all categories are mostly having normal climate in majority of their outage diatribution. Speciafically, fuel supply emergency and equipment failure consist of more proportion of cold climate category which shows that these two categories of causes occurred more often when the climate is cold.
+
+---
+
 ## Assessment of Missingness
 ### NMAR Analysis
 One of the column in the dataset we observed with missing values that is possibly NMAR is the column. We observed the missing values of that columns are likely to be non-random and if there's a systematic reason behind their absence.
@@ -96,3 +117,28 @@ However, there are some exceptions to the column that if the OUTAGE.START is not
 **Conclusion:** Considering the logical flow of events during power outages and the nature of the data generating process, it is reasonable to believe that the "OUTAGE.RESTORATION.DATE" column is likely NMAR. The missing values in this column are not randomly distributed but are tied to the occurrence (or lack) of power restoration following an outage. Further details on the circumstances of each outage event, especially those without restoration dates, would enhance the understanding of the missingness pattern.
 
 --- 
+
+## Missingness Dependency
+
+Since we interested in the relationship between `'CAUSE.CATEGORY'` and other columns, and we believe that their data can be expressed into a more detailed column like `'CAUSE.CATEGORY.DETAIL'`. As such, we would like to find how the missingness in `'CAUSE.CATEGORY.DETAIL'` are
+depended on the other columns.
+
+1. TOTAL.CUSTOMERS and CAUSE.CATEGORY.DETAIL
+Null Hypothesis: The missingness of `'CAUSE.CATEGORY.DETAIL'` does not depend on `'TOTAL.CUSTOMERS'`. 
+
+Alternative Hypothesis: The missingness of `'CAUSE.CATEGORY.DETAIL'` depends on `'TOTAL.CUSTOMERS'`
+
+We are using the cumulative distribution function (CDFs) to measure the simularity between the two distributions in order to find out the K-S statistic that is roughly defined as the **largest difference between two CDFs**.
+
+Below are the distributions of `'CAUSE.CATEGROY.DETIAL'` and `'TOTAL.CUSTOMERS'` in a form of the plotly plot, we conducted the shape of the two distribution are unsimular and the 
+<iframe src="assets/fig_total_cutomer_dist.html" width=800 height=600 frameBorder=0></iframe>
+
+---
+
+## Hypothesis Test
+
+**Whether the high severe outages were distributed at random from the CAUSE.CATEGORY?**
+
+
+
+---
