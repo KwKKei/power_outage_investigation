@@ -1,4 +1,4 @@
-# Power Outage Investigation
+# Investigating Power Outages Associated with Causes
 by Max Yuen Sum Wong(y6wong@ucsd.edu), Chris Yuen Kei Wong(ykw001@ucsd.edu)
 
 ---
@@ -143,11 +143,17 @@ One of the column in the dataset we observed with missing values that is possibl
 
 ### Reasoning:
 
-**Nature of Date:** The missing values in the `'OUTAGE.RESTORATION.`column are resonable if there is no restroation after the outage start. This assumption aligns with the logical flow of events during a power outage. If there is no restoration, the date and time in the columns would not be available, and recorded.
+**Nature of Date:** 
+The missing values in the `'OUTAGE.RESTORATION.`column are resonable if there is no restroation after the outage start. This assumption aligns with the logical flow of events during a power outage. If there is no restoration, the date and time in the columns would not be available, and recorded.
 
-**Data Generating Process:** The nature of power outage events is such that restratoin may not occur immediately or may not occur at all incerain cases. Therefore, the absence of a restoration date could be inherent to the data generating process. For example, if a severe weather event or intentional attack cause extensice damage, it may not be possible to retore power immediately or abandon the construction permenantly due to the tedious amount of fee of maintainence. If the power is not stored, there is no date and time to record.
+**Data Generating Process:** 
+The nature of power outage events is such that restratoin may not occur immediately or may not occur at all incerain cases. Therefore, the absence of a restoration date could be inherent to the data generating process. For example, if a severe weather event or intentional attack cause extensice damage, it may not be possible to retore power immediately or abandon the construction permenantly due to the tedious amount of fee of maintainence. If the power is not stored, there is no date and time to record.
 
 However, there are some exceptions to the column that if the `'OUTAGE.START'` is not recorded, it is reasonable to miss the value at random (MAR) in this case. If there is no outage recorded, the time of outage restoration will not be recored based on the process of taking the time record.
+
+**Assumption**
+
+As aforementioned, we think the `'OUTAGE.RESTORATION.`column are resonable if there is no restroation after the outage start. On the other hand, the missing value may mean the ongoing outage. If there is a column show the status of outage, like closed_file or on_going. In that case, the `'OUTAGE.RESTORATION.`column will be MAR which is dependent on other coulumn.
 
 **Conclusion:** Considering the logical flow of events during power outages and the nature of the data generating process, it is reasonable to believe that the `'OUTAGE.RESTORATION.DATE'` column is likely NMAR. The missing values in this column are not randomly distributed but are tied to the occurrence (or lack) of power restoration following an outage. Further details on the circumstances of each outage event, especially those without restoration dates, would enhance the understanding of the missingness pattern.
 
