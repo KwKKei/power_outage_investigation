@@ -36,10 +36,18 @@ We attempt to replicate the analysis conducted in the study. This involves using
 
 ---
 
-## Cleaning Data
+## Cleaning Data and Exploratory Data Analysis
 
-We have added new columns for the data cleaning part
-|   YEAR | CLIMATE.CATEGORY   | OUTAGE.START        | OUTAGE.RESTORATION   | CAUSE.CATEGORY     | CAUSE.CATEGORY.DETAIL   |   OUTAGE.DURATION |   DEMAND.LOSS.MW |   CUSTOMERS.AFFECTED |   TOTAL.CUSTOMERS | HIGH_SEVERITY   |
+In order to increase the readability and accuracy of our data, we have commit some changes to clean the original DataFrame we get. 
+
+1. **Create a function to combine the `'OUTAGE.START.DATE'` and `'OUTAGE.START.TIME'` into a new column named `'OUTAGE.START'` where store the datetime value of the outage starting time. Doing the same as the `'OUTAGE.RESTORATION'` column in the `'cleaned'` dataset.**
+2. **Defining the `'HIGH_SEVERITY'` column where it stores the boolean values whether the `'OUTAGE.DURATION'` is greater than the high_severity_threshold which we define as the mean of `'OUTAGE.DURATION'`.**
+
+After data cleaning, the first 5 rows of the data in the new DataFrame called `'cleaned'` would be showing, moreover, we have added new columns for the data cleaning part. See as follow:
+
+
+
+|   YEAR | CLIMATE.CATEGORY   | OUTAGE.START        | OUTAGE.RESTORATION   | CAUSE.CATEGORY     | CAUSE.CATEGORY.DETAIL   |   OUTAGE.DURATION | ``  DEMAND.LOSS.MW |   CUSTOMERS.AFFECTED |   TOTAL.CUSTOMERS | HIGH_SEVERITY   |
 |-------:|:-------------------|:--------------------|:---------------------|:-------------------|:------------------------|------------------:|-----------------:|---------------------:|------------------:|:----------------|
 |   2011 | normal             | 2011-07-01 17:00:00 | 2011-07-03 20:00:00  | severe weather     | nan                     |              3060 |              nan |                70000 |           2595696 | True            |
 |   2011 | normal             | 2011-07-08 10:00:00 | 2011-07-08 10:00:00  | intentional attack | vandalism               |                 0 |                0 |                    0 |           2595696 | False           |
@@ -51,3 +59,25 @@ We have added new columns for the data cleaning part
 <iframe src="assets/fig_duration.html" width=800 height=600 frameBorder=0></iframe>
 
 ---
+
+## Univariate Analysis
+W
+
+---
+
+## Assessment of Missingness
+### NMAR Analysis
+One of the column in the dataset we observed with missing values that is possibly NMAR is the column. We observed the missing values of that columns are likely to be non-random and if there's a systematic reason behind their absence.
+
+### Reasoning:
+
+**Nature of Date:** The missing values in the "OUTAGE.RESTORATION" column are resonable if there is no restroation after the outage start. This assumption aligns with the logical flow of events during a power outage. If there is no restoration, the date and time in the columns would not be available, and recorded.
+
+**Data Generating Process:** The nature of power outage events is such that restratoin may not occur immediately or may not occur at all incerain cases. Therefore, the absence of a restoration date could be inherent to the data generating process. For example, if a severe weather event or intentional attack cause extensice damage, it may not be possible to retore power immediately or abandon the construction permenantly due to the tedious amount of fee of maintainence. If the power is not stored, there is no date and time to record.
+
+However, there are some exceptions to the column that if the OUTAGE.START is not recorded, it is reasonable to miss the value at random (MAR) in this case. If there is no outage recorded, the time of outage restoration will not be recored based on the process of taking the time record.
+
+**Conclusion:** Considering the logical flow of events during power outages and the nature of the data generating process, it is reasonable to believe that the "OUTAGE.RESTORATION.DATE" column is likely NMAR. The missing values in this column are not randomly distributed but are tied to the occurrence (or lack) of power restoration following an outage. Further details on the circumstances of each outage event, especially those without restoration dates, would enhance the understanding of the missingness pattern.
+
+--- 
+## Missingness Dependency
