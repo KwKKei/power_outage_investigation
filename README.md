@@ -31,7 +31,7 @@ The dataset we are using contains the information on 1534 power outages cases fr
 |`'TOTAL.CUSTOMERS'`        | Annual count of total customers served in the respective U.S. state|
 |`'HIGH_SEVERITY'`          | Binary indicator (True/False) denoting whether the outage event is classified as high severity, based on the outage duration being above the average for that specific year. Events with durations exceeding the annual average are marked as high severity. |
 
-In our study,  we used the `'CAUSE.CATEGORY'` as the main concern in seeing the associations of the each value in the `'CAUSE.CATEGORY'` COLUMNS. The 'CAUSE.CATEGORY' variable likely represents the categorization of the causes of severe weather-induced major power outages. To understand whether high severe outages were distributed at random within this category, you may want to investigate the methodology and statistical analysis conducted in the study.
+In our study,  we used the `'CAUSE.CATEGORY'` as the main concern in seeing the associations of the each value in the `'CAUSE.CATEGORY'` COLUMNS. The 'CAUSE.CATEGORY' variable likely represents the categorization of the causes of severe weather-induced major power outages. To understand whether high severe outages were distributed at random within this category, we want to investigate the methodology and statistical analysis conducted in the study.
 
 We attempt to replicate the analysis conducted in the study. This involves using the same variables and applying the same statistical methods to assess whether high severe outages are distributed at random within each cause category.
 
@@ -59,7 +59,7 @@ After data cleaning, the first 5 rows of the data in the new DataFrame called `'
 ## Univariate Analysis
 In this section, we explore individual variables to understand their distributions and characteristics. Two key variables are examined: **OUTAGE.DURATION** and **CAUSE.CATEGORY**.
 
-1. ### `'OUTAGE.DURATION'` Distribution:
+### `'OUTAGE.DURATION'` Distribution:
 
 The histogram visualizes the distribution of outage durations, showcasing the frequency of outages across different duration ranges. It provides insights into the typical duration of power outages and highlights any notable outliers. 
 
@@ -69,7 +69,7 @@ The histogram visualizes the distribution of outage durations, showcasing the fr
 
 - **Interpretation:** The majority of outages have a relatively short duration, with a peak in the histogram. However, there are also a few instances of longer-duration outages, contributing to the right tail of the distribution.
 
-2. ### `'CAUSE.CATEGORY'` Distribution:
+### `'CAUSE.CATEGORY'` Distribution:
 
 The bar chart presents the distribution of major power outages categorized by their causes. It offers a comprehensive view of the prevalence of different causes, shedding light on the primary factors contributing to major power disruptions.
 
@@ -84,7 +84,7 @@ The bar chart presents the distribution of major power outages categorized by th
 ## Bivariate Analysis
 In this section, we explore relationships between pairs of variables, shedding light on potential correlations and patterns within the dataset.
 
-1. ### Outage Duration vs. Cause Category:
+### Outage Duration vs. Cause Category:
 
 <iframe src="assets/fig_OD_vs_CC.html" width=800 height=600 frameBorder=0></iframe>
 
@@ -92,7 +92,7 @@ In this section, we explore relationships between pairs of variables, shedding l
 
 - **Interpretation:** From this box chart, we noticed that fuel supply emergency have a wide range of values which the outliers increment the mean of the outage duration. It seems that there are several high severity cases of the outage. With regard to other cause categories, their outage duration remain steady, and each categories contains a several outiers but not very significant.
 
-2. ### Percentage of Climate Categories for Each Cause Category:
+### Percentage of Climate Categories for Each Cause Category:
 
 <iframe src="assets/fig_climate_percent.html" width=800 height=600 frameBorder=0></iframe>
 
@@ -100,9 +100,78 @@ In this section, we explore relationships between pairs of variables, shedding l
 
 - **Interpretation:** We observed that this grouped barcahrt, all categories are mostly having normal climate in majority of their outage diatribution. Speciafically, fuel supply emergency and equipment failure consist of more proportion of cold climate category which shows that these two categories of causes occurred more often when the climate is cold.
 
+--- 
+
+## Interesting Aggregates
+
+| CAUSE.CATEGORY                |      cold |   normal |      warm |
+|:------------------------------|----------:|---------:|----------:|
+| equipment failure             |   308.235 | 3201.43  |   505     |
+| fuel supply emergency         | 17433     | 7658.82  | 22799.7   |
+| intentional attack            |   497.282 |  426.818 |   312.557 |
+| islanding                     |   259.267 |  142.176 |   209.833 |
+| public appeal                 |  2125.91  | 1376.53  |   596.231 |
+| severe weather                |  3279.95  | 4059.33  |  4416.69  |
+| system operability disruption |   601.861 |  941.018 |   478.2   |
+
+The pivot table provides a clear overview of the mean 'OUTAGE.DURATION' for each combination of 'CAUSE.CATEGORY' and 'CLIMATE.CATEGORY'. Here are some observations and analysis based on the pivot table:
+
+<iframe src="assets/fig_grouped_bar.html" width=800 height=600 frameBorder=0></iframe>
+
+### Equipment Failure:
+
+- **Cold Climate:** Mean outage duration is 308.235 minutes.
+- **Normal Climate:** Mean outage duration is 3201.43 minutes, significantly higher than in the cold climate.
+- **Warm Climate:** Mean outage duration is 505 minutes.
+
+### Fuel Supply Emergency:
+
+- **Cold Climate:** Mean outage duration is 17433 minutes, the longest duration among all climate categories.
+- **Normal Climate:** Mean outage duration is 7658.82 minutes.
+- **Warm Climate:** Mean outage duration is 22799.7 minutes.
+
+### Intentional Attack:
+
+- **Cold Climate:** Mean outage duration is 497.282 minutes.
+- **Normal Climate:** Mean outage duration is 426.818 minutes.
+- **Warm Climate:** Mean outage duration is 312.557 minutes.
+
+### Islanding:
+
+- **Cold Climate:** Mean outage duration is 259.267 minutes.
+- **Normal Climate:** Mean outage duration is 142.176 minutes.
+- **Warm Climate:** Mean outage duration is 209.833 minutes.
+
+### Public Appeal:
+
+- **Cold Climate:** Mean outage duration is 2125.91 minutes.
+- **Normal Climate:** Mean outage duration is 1376.53 minutes.
+- **Warm Climate:** Mean outage duration is 596.231 minutes.
+
+### Severe Weather:
+
+- **Cold Climate:** Mean outage duration is 3279.95 minutes.
+- **Normal Climate:** Mean outage duration is 4059.33 minutes.
+- **Warm Climate:** Mean outage duration is 4416.69 minutes.
+
+### System Operability Disruption:
+
+- **Cold Climate:** Mean outage duration is 601.861 minutes.
+- **Normal Climate:** Mean outage duration is 941.018 minutes.
+- **Warm Climate:** Mean outage duration is 478.2 minutes.
+
+### Analysis:
+
+- The pivot table allows us to compare the mean outage duration across different cause categories and climate categories.
+
+- Certain cause categories, such as 'Fuel Supply Emergency' and 'Severe Weather,' exhibit significant variations in mean outage duration across climate categories.
+
+- The table provides valuable insights into the potential impact of both the cause and climate on outage durations, contributing to a better understanding of the dataset.
+
 ---
 
 ## Assessment of Missingness
+
 ### NMAR Analysis
 One of the column in the dataset we observed with missing values that is possibly NMAR is the column. We observed the missing values of that columns are likely to be non-random and if there's a systematic reason behind their absence.
 
@@ -115,12 +184,6 @@ One of the column in the dataset we observed with missing values that is possibl
 However, there are some exceptions to the column that if the OUTAGE.START is not recorded, it is reasonable to miss the value at random (MAR) in this case. If there is no outage recorded, the time of outage restoration will not be recored based on the process of taking the time record.
 
 **Conclusion:** Considering the logical flow of events during power outages and the nature of the data generating process, it is reasonable to believe that the "OUTAGE.RESTORATION.DATE" column is likely NMAR. The missing values in this column are not randomly distributed but are tied to the occurrence (or lack) of power restoration following an outage. Further details on the circumstances of each outage event, especially those without restoration dates, would enhance the understanding of the missingness pattern.
-
---- 
-
-## Interesting Aggregates
-
-
 
 ---
 
@@ -155,7 +218,7 @@ After we run the permutation test, we can see the histogram below is showing the
 Below are the distributions of `'DETAIL.MISSING'` and `'OUTAGE.DURATION'` in a form of the plotly plot, we conducted the shape of the two distribution are , but this time the mean difference is quite small according to the distribution. We can also run the Kolmogorov-Smirnov to collect the observed statistic is the purpose to run a permutation test to find out the p-value whether it is fall in the distribution. 
 <iframe src="assets/fig_outage_duration_dist.html" width=800 height=600 frameBorder=0></iframe>
 
-After collected the ks-statistic and run the permutation test, we see a p-value of 0.01 which satisfy the signigicance level of 5%, so we can reject the nul hypothesis. The missingness of `'CAUSE.CATEGORY.DETAIL'` is depend on the values of `'OUTAGE.DURATION'` 
+After collected the ks-statistic and run the permutation test, we see a p-value of 0.08 which satisfy the signigicance level of 5%, so we can reject the nul hypothesis. The missingness of `'CAUSE.CATEGORY.DETAIL'` is depend on the values of `'OUTAGE.DURATION'` 
 
 <iframe src="assets/fig_outage_duration_KS.html" width=800 height=600 frameBorder=0></iframe>
 
@@ -193,6 +256,7 @@ The TVD is a suitable choice because it measures the discrepancy between two pro
 4. Compared the observed TVD to the empirical distribution to calculate the p-value.
 
 ### Observation:
+
 | CAUSE.CATEGORY                |   Low Severity |   High Severity |
 |:------------------------------|---------------:|----------------:|
 | equipment failure             |      0.0503145 |      0.00242718 |
