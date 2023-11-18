@@ -118,12 +118,18 @@ However, there are some exceptions to the column that if the OUTAGE.START is not
 
 --- 
 
+## Interesting Aggregates
+
+
+
+---
+
 ## Missingness Dependency
 
 Since we interested in the relationship between `'CAUSE.CATEGORY'` and other columns, and we believe that their data can be expressed into a more detailed column like `'CAUSE.CATEGORY.DETAIL'`. As such, we would like to find how the missingness in `'CAUSE.CATEGORY.DETAIL'` are
 depended on the other columns.
 
-## `'TOTAL.CUSTOMERS'` and `'CAUSE.CATEGORY.DETAIL'` (MCAR)
+### `'TOTAL.CUSTOMERS'` and `'CAUSE.CATEGORY.DETAIL'` (MCAR)
 
 **Null Hypothesis:** The missingness of `'CAUSE.CATEGORY.DETAIL'` does not depend on `'TOTAL.CUSTOMERS'`. 
 
@@ -140,14 +146,14 @@ After we run the permutation test, we can see the histogram below is showing the
 
 <iframe src="assets/fig_total_cutomer_KS.html" width=800 height=600 frameBorder=0></iframe>
 
-## `'OUTAGE.DURATION'` and `'CAUSE.CATEGORY.DETAIL'` (MAR)
+### `'OUTAGE.DURATION'` and `'CAUSE.CATEGORY.DETAIL'` (MAR)
 
 **Null Hypothesis:** The missingness of `'CAUSE.CATEGORY.DETAIL'` does not depend on `'OUTAGE.DURATION'` 
 
 **Alternative hypothesis:** The missingness of `'CAUSE.CATEGORY.DETAIL'` depends on `'OUTAGE.DURATION'` 
 
 Below are the distributions of `'DETAIL.MISSING'` and `'OUTAGE.DURATION'` in a form of the plotly plot, we conducted the shape of the two distribution are , but this time the mean difference is quite small according to the distribution. We can also run the Kolmogorov-Smirnov to collect the observed statistic is the purpose to run a permutation test to find out the p-value whether it is fall in the distribution. 
-<iframe src="assets/fig_total_cutomer_dist.html" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/fig_outage_duration_dist.html" width=800 height=600 frameBorder=0></iframe>
 
 After collected the ks-statistic and run the permutation test, we see a p-value of 0.01 which satisfy the signigicance level of 5%, so we can reject the nul hypothesis. The missingness of `'CAUSE.CATEGORY.DETAIL'` is depend on the values of `'OUTAGE.DURATION'` 
 
