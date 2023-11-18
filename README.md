@@ -104,7 +104,7 @@ In this section, we explore relationships between pairs of variables, shedding l
 
 ## Interesting Aggregates
 
-| CAUSE.CATEGORY                |      cold |   normal |      warm |
+| CAUSE.CATEGORY                |      cold (OUTAGE.DUARTION mean) |   normal (OUTAGE.DUARTION mean) |      warm (OUTAGE.DUARTION mean)|
 |:------------------------------|----------:|---------:|----------:|
 | equipment failure             |   308.235 | 3201.43  |   505     |
 | fuel supply emergency         | 17433     | 7658.82  | 22799.7   |
@@ -114,51 +114,17 @@ In this section, we explore relationships between pairs of variables, shedding l
 | severe weather                |  3279.95  | 4059.33  |  4416.69  |
 | system operability disruption |   601.861 |  941.018 |   478.2   |
 
-The pivot table provides a clear overview of the mean 'OUTAGE.DURATION' for each combination of 'CAUSE.CATEGORY' and 'CLIMATE.CATEGORY'. Here are some observations and analysis based on the pivot table:
+The pivot table provides a clear overview of the mean `'OUTAGE.DURATION'` for each combination of `'CAUSE.CATEGORY'` and `'CLIMATE.CATEGORY'`. Here are some observations and analysis based on the pivot table:
 
 <iframe src="assets/fig_grouped_bar.html" width=800 height=600 frameBorder=0></iframe>
 
-### Equipment Failure:
-
-- **Cold Climate:** Mean outage duration is 308.235 minutes.
+### Significance:
+**Equipment Failure:**
 - **Normal Climate:** Mean outage duration is 3201.43 minutes, significantly higher than in the cold climate.
-- **Warm Climate:** Mean outage duration is 505 minutes.
 
-### Fuel Supply Emergency:
-
+**Fuel Supply Emergency:**
 - **Cold Climate:** Mean outage duration is 17433 minutes, the longest duration among all climate categories.
-- **Normal Climate:** Mean outage duration is 7658.82 minutes.
-- **Warm Climate:** Mean outage duration is 22799.7 minutes.
 
-### Intentional Attack:
-
-- **Cold Climate:** Mean outage duration is 497.282 minutes.
-- **Normal Climate:** Mean outage duration is 426.818 minutes.
-- **Warm Climate:** Mean outage duration is 312.557 minutes.
-
-### Islanding:
-
-- **Cold Climate:** Mean outage duration is 259.267 minutes.
-- **Normal Climate:** Mean outage duration is 142.176 minutes.
-- **Warm Climate:** Mean outage duration is 209.833 minutes.
-
-### Public Appeal:
-
-- **Cold Climate:** Mean outage duration is 2125.91 minutes.
-- **Normal Climate:** Mean outage duration is 1376.53 minutes.
-- **Warm Climate:** Mean outage duration is 596.231 minutes.
-
-### Severe Weather:
-
-- **Cold Climate:** Mean outage duration is 3279.95 minutes.
-- **Normal Climate:** Mean outage duration is 4059.33 minutes.
-- **Warm Climate:** Mean outage duration is 4416.69 minutes.
-
-### System Operability Disruption:
-
-- **Cold Climate:** Mean outage duration is 601.861 minutes.
-- **Normal Climate:** Mean outage duration is 941.018 minutes.
-- **Warm Climate:** Mean outage duration is 478.2 minutes.
 
 ### Analysis:
 
@@ -177,13 +143,13 @@ One of the column in the dataset we observed with missing values that is possibl
 
 ### Reasoning:
 
-**Nature of Date:** The missing values in the "OUTAGE.RESTORATION" column are resonable if there is no restroation after the outage start. This assumption aligns with the logical flow of events during a power outage. If there is no restoration, the date and time in the columns would not be available, and recorded.
+**Nature of Date:** The missing values in the `'OUTAGE.RESTORATION.`column are resonable if there is no restroation after the outage start. This assumption aligns with the logical flow of events during a power outage. If there is no restoration, the date and time in the columns would not be available, and recorded.
 
 **Data Generating Process:** The nature of power outage events is such that restratoin may not occur immediately or may not occur at all incerain cases. Therefore, the absence of a restoration date could be inherent to the data generating process. For example, if a severe weather event or intentional attack cause extensice damage, it may not be possible to retore power immediately or abandon the construction permenantly due to the tedious amount of fee of maintainence. If the power is not stored, there is no date and time to record.
 
-However, there are some exceptions to the column that if the OUTAGE.START is not recorded, it is reasonable to miss the value at random (MAR) in this case. If there is no outage recorded, the time of outage restoration will not be recored based on the process of taking the time record.
+However, there are some exceptions to the column that if the `'OUTAGE.START'` is not recorded, it is reasonable to miss the value at random (MAR) in this case. If there is no outage recorded, the time of outage restoration will not be recored based on the process of taking the time record.
 
-**Conclusion:** Considering the logical flow of events during power outages and the nature of the data generating process, it is reasonable to believe that the "OUTAGE.RESTORATION.DATE" column is likely NMAR. The missing values in this column are not randomly distributed but are tied to the occurrence (or lack) of power restoration following an outage. Further details on the circumstances of each outage event, especially those without restoration dates, would enhance the understanding of the missingness pattern.
+**Conclusion:** Considering the logical flow of events during power outages and the nature of the data generating process, it is reasonable to believe that the `'OUTAGE.RESTORATION.DATE'` column is likely NMAR. The missing values in this column are not randomly distributed but are tied to the occurrence (or lack) of power restoration following an outage. Further details on the circumstances of each outage event, especially those without restoration dates, would enhance the understanding of the missingness pattern.
 
 ---
 
